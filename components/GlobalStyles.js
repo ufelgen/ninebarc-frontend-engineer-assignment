@@ -4,6 +4,8 @@ const GlobalStyles = createGlobalStyle`
     html,
     body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        max-width: 800px;
+        margin: 0 auto;
     }
     :root {
         --white: #fff;
@@ -13,7 +15,7 @@ const GlobalStyles = createGlobalStyle`
     }
     * {
         box-sizing: border-box;
-        margin: 0;
+        //margin: 0;
         padding: 0;
     }
 `;

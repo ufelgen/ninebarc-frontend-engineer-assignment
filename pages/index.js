@@ -1,5 +1,6 @@
 import Head from "next/head";
 import styled from "styled-components";
+import Image from "next/image";
 
 export default function Home({ onUpdateSearchedBooks, searchedBooks }) {
   async function getBooks(event) {
@@ -16,6 +17,7 @@ export default function Home({ onUpdateSearchedBooks, searchedBooks }) {
     onUpdateSearchedBooks(matchedBooks);
     console.log(matchedBooks);
   }
+
   return (
     <>
       <Head>
@@ -40,6 +42,16 @@ export default function Home({ onUpdateSearchedBooks, searchedBooks }) {
         <SearchResult key={book.key}>
           <p>author: {book.author_name}</p>
           <h4>title: {book.title}</h4>
+          <Image
+            src={
+              Array.isArray(book.isbn)
+                ? `https://covers.openlibrary.org/b/isbn/${book.isbn[0]}-S.jpg`
+                : `https://covers.openlibrary.org/b/isbn/${book.isbn}-S.jpg`
+            }
+            width={50}
+            height={80}
+            alt={`cover image of ${book.title}`}
+          />
         </SearchResult>
       ))}
     </>
@@ -76,6 +88,7 @@ const StyledForm = styled.form`
     background-color: var(--darkgrey);
     color: white;
     border-radius: 5px;
+    width: 15%;
   }
 `;
 
