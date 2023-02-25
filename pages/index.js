@@ -2,20 +2,25 @@ import Head from "next/head";
 import styled from "styled-components";
 import Image from "next/image";
 
-export default function Home({ onUpdateSearchedBooks, searchedBooks }) {
+export default function Home({
+  onUpdateSearchedBooks,
+  searchedBooks,
+  onUpdateCurrentSearchTerm,
+  currentSearchTerm,
+}) {
   async function getBooks(event) {
     event.preventDefault();
-    const searchTerm = event.target.elements.searchTerm.value.replace(
-      /\s/g,
-      "+"
-    );
+    const searchTermString = event.target.elements.searchTerm.value;
+    const searchTerm = searchTermString.replace(/\s/g, "+");
 
     const response = await fetch(
       "https://openlibrary.org/search.json?q=" + searchTerm
     );
     const matchedBooks = await response.json();
     onUpdateSearchedBooks(matchedBooks);
+    onUpdateCurrentSearchTerm(searchTermString);
     console.log(matchedBooks);
+    event.target.reset();
   }
 
   return (
@@ -27,33 +32,40 @@ export default function Home({ onUpdateSearchedBooks, searchedBooks }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <StyledHeading>Book Quest</StyledHeading>
-      <StyledForm onSubmit={() => getBooks(event)}>
-        <label htmlFor="searchTerm">Search for a book title or author</label>
-        <input
-          id="searchTerm"
-          name="searchTerm"
-          placeholder="e.g. Harry Potter"
-        />
-        <button type="submit" aria-label="submit your search">
-          search
-        </button>
-      </StyledForm>
-      {searchedBooks.docs?.map((book) => (
-        <SearchResult key={book.key}>
-          <p>author: {book.author_name}</p>
-          <h4>title: {book.title}</h4>
-          <Image
-            src={
-              Array.isArray(book.isbn)
-                ? `https://covers.openlibrary.org/b/isbn/${book.isbn[0]}-S.jpg`
-                : `https://covers.openlibrary.org/b/isbn/${book.isbn}-S.jpg`
-            }
-            width={50}
-            height={80}
-            alt={`cover image of ${book.title}`}
+      <main>
+        <StyledForm onSubmit={() => getBooks(event)}>
+          <label htmlFor="searchTerm">Search for a book title or author</label>
+          <input
+            id="searchTerm"
+            name="searchTerm"
+            placeholder="e.g. Harry Potter"
           />
-        </SearchResult>
-      ))}
+          <button type="submit" aria-label="submit your search">
+            search
+          </button>
+        </StyledForm>
+        {currentSearchTerm !== "" && (
+          <CurrentSearchTerm>
+            search results for: "{currentSearchTerm}"
+          </CurrentSearchTerm>
+        )}
+        {searchedBooks.docs?.map((book) => (
+          <SearchResult key={book.key}>
+            <Author>author: {book.author_name}</Author>
+            <Title>title: {book.title}</Title>
+            <StyledImage
+              src={
+                Array.isArray(book.isbn)
+                  ? `https://covers.openlibrary.org/b/isbn/${book.isbn[0]}-S.jpg`
+                  : `https://covers.openlibrary.org/b/isbn/${book.isbn}-S.jpg`
+              }
+              width={50}
+              height={80}
+              alt={`cover image of ${book.title}`}
+            />
+          </SearchResult>
+        ))}
+      </main>
     </>
   );
 }
@@ -64,6 +76,22 @@ const SearchResult = styled.article`
   margin: 0.5rem;
   padding: 0.25rem;
   background-color: var(--lightgrey);
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+`;
+const Author = styled.p`
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0.5rem;
+`;
+const Title = styled.h4`
+  grid-column: 1;
+  grid-row: 2;
+  margin: 0.5rem;
+`;
+const StyledImage = styled(Image)`
+  grid-column: 2;
+  grid-row: 1 / span 2;
 `;
 
 const StyledForm = styled.form`
@@ -92,6 +120,11 @@ const StyledForm = styled.form`
   }
 `;
 
+const CurrentSearchTerm = styled.p`
+  margin: 1rem;
+  font-weight: bold;
+  color: var(--darkmagenta);
+`;
 const StyledHeading = styled.header`
   background-color: var(--darkgrey);
   color: white;

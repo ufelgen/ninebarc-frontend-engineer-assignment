@@ -4,10 +4,16 @@ import GlobalStyles from "@/components/GlobalStyles";
 
 export default function App({ Component, pageProps }) {
   const [searchedBooks, setSearchedBooks] = useState([]);
+  const [currentSearchTerm, setCurrentSearchTerm] = useState("");
 
   function handleUpdateSearchedBooks(newBooks) {
     setSearchedBooks(newBooks);
   }
+
+  function handleUpdateCurrentSearchTerm(searchTerm) {
+    setCurrentSearchTerm(searchTerm);
+  }
+
   return (
     <>
       <Head>
@@ -19,6 +25,8 @@ export default function App({ Component, pageProps }) {
         {...pageProps}
         onUpdateSearchedBooks={handleUpdateSearchedBooks}
         searchedBooks={searchedBooks}
+        onUpdateCurrentSearchTerm={handleUpdateCurrentSearchTerm}
+        currentSearchTerm={currentSearchTerm}
       />
     </>
   );
