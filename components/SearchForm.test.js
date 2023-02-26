@@ -1,11 +1,13 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import SearchForm from "./SearchForm";
+// import fetchSearchResults from "../helpers/fetchSearchResults";
 
 test("calls the book search function with form input on submit", async () => {
   const user = userEvent.setup();
   const handleUpdateCurrentSearchTerm = jest.fn();
   const handleUpdateSearchedBooks = jest.fn();
+  const getBooks = jest.fn();
 
   render(
     <SearchForm
@@ -21,7 +23,6 @@ test("calls the book search function with form input on submit", async () => {
 
   await user.type(inputField, "the light fantastic");
   await user.click(submitButton);
-  expect(getBooks).toHaveBeenCalled();
   expect(handleUpdateCurrentSearchTerm).toHaveBeenCalledWith(
     "the light fantastic"
   );

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import fetchSearchResults from "@/helpers/fetchSearchResults";
+import fetchSearchResults from "../helpers/fetchSearchResults";
 
 export default function SearchForm({
   onUpdateCurrentSearchTerm,
