@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>flashcards extreme</title>
+        <title>Book Quest</title>
       </Head>
 
       <GlobalStyles />
