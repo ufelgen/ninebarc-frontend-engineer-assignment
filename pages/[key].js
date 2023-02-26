@@ -50,16 +50,15 @@ export default function DetailPage({
         <p>{currentBook.author_name}</p>
         <h4>{currentBook.title}</h4>
         <p>(first published: {currentBook.first_publish_year})</p>
-        <p className="description">
+        <article className="description">
           {!description && "no description available"}
           {description?.value ? description.value : description}
-        </p>
+        </article>
       </BookDetails>
     </Main>
   );
 }
 const Main = styled.main`
-  position: relative;
   display: flex;
   justify-content: center;
 `;
@@ -76,22 +75,33 @@ const StyledImage = styled(Image)`
 
 const BookDetails = styled.article`
   position: fixed;
-  max-width: 700px;
   top: 70%;
-  margin: 0 1.5rem 0 1.5rem;
+  width: 90vw;
+  max-width: 700px;
   padding: 0.5rem;
   background-color: rgba(255, 255, 255, 0.5);
 
-  @media (max-width: 768px) {
-    .description {
-      font-size: 0.77rem;
+  .description {
+    overflow-y: scroll;
+    ::-webkit-scrollbar {
+      width: 0.5rem;
+      height: 1em;
+      background-color: darkgrey;
     }
   }
 
-  @media (min-width: 769px) {
-    font-size: 1.5rem;
+  @media (max-width: 799px) {
+    .description {
+      font-size: 0.77rem;
+      height: 15vh;
+    }
+  }
+
+  @media (min-width: 800px) {
+    font-size: 1.25rem;
     .description {
       font-size: 1rem;
+      height: 10vh;
     }
   }
 `;
