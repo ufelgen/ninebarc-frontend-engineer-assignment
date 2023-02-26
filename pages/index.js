@@ -1,6 +1,28 @@
 import Head from "next/head";
+import styled from "styled-components";
+import Image from "next/image";
 
-export default function Home() {
+export default function Home({
+  onUpdateSearchedBooks,
+  searchedBooks,
+  onUpdateCurrentSearchTerm,
+  currentSearchTerm,
+}) {
+  async function getBooks(event) {
+    event.preventDefault();
+    const searchTermString = event.target.elements.searchTerm.value;
+    const searchTerm = searchTermString.replace(/\s/g, "+");
+
+    const response = await fetch(
+      "https://openlibrary.org/search.json?q=" + searchTerm
+    );
+    const matchedBooks = await response.json();
+    onUpdateSearchedBooks(matchedBooks);
+    onUpdateCurrentSearchTerm(searchTermString);
+    console.log(matchedBooks);
+    event.target.reset();
+  }
+
   return (
     <>
       <Head>
@@ -9,7 +31,108 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>Book Quest</main>
+      <StyledHeading>Book Quest</StyledHeading>
+      <main>
+        <StyledForm onSubmit={() => getBooks(event)}>
+          <label htmlFor="searchTerm">Search for a book title or author</label>
+          <input
+            id="searchTerm"
+            name="searchTerm"
+            placeholder="e.g. Harry Potter"
+          />
+          <button type="submit" aria-label="submit your search">
+            search
+          </button>
+        </StyledForm>
+        {currentSearchTerm !== "" && (
+          <CurrentSearchTerm>
+            search results for: "{currentSearchTerm}"
+          </CurrentSearchTerm>
+        )}
+        {searchedBooks.docs?.map((book) => (
+          <SearchResult key={book.key}>
+            <Author>author: {book.author_name}</Author>
+            <Title>title: {book.title}</Title>
+            <StyledImage
+              src={
+                Array.isArray(book.isbn)
+                  ? `https://covers.openlibrary.org/b/isbn/${book.isbn[0]}-S.jpg`
+                  : `https://covers.openlibrary.org/b/isbn/${book.isbn}-S.jpg`
+              }
+              width={50}
+              height={80}
+              alt={`cover image of ${book.title}`}
+            />
+          </SearchResult>
+        ))}
+      </main>
     </>
   );
 }
+
+const SearchResult = styled.article`
+  border: 2px solid var(--darkmagenta);
+  border-radius: 5px;
+  margin: 0.5rem;
+  padding: 0.25rem;
+  background-color: var(--lightgrey);
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+`;
+const Author = styled.p`
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0.5rem;
+`;
+const Title = styled.h4`
+  grid-column: 1;
+  grid-row: 2;
+  margin: 0.5rem;
+`;
+const StyledImage = styled(Image)`
+  grid-column: 2;
+  grid-row: 1 / span 2;
+`;
+
+const StyledForm = styled.form`
+  border: 2px solid var(--lightgrey);
+  border-radius: 5px;
+  margin: 0.5rem;
+  padding: 0.5rem 0.25rem;
+  background-color: var(--darkmagenta);
+  color: white;
+  font-weight: bold;
+
+  input {
+    padding: 0.25rem;
+    height: 4vh;
+    width: 77%;
+  }
+
+  button {
+    padding: 0.25rem;
+    margin: 0.5rem;
+    height: 4vh;
+    background-color: var(--darkgrey);
+    color: white;
+    border-radius: 5px;
+    width: 15%;
+  }
+`;
+
+const CurrentSearchTerm = styled.p`
+  margin: 1rem;
+  font-weight: bold;
+  color: var(--darkmagenta);
+`;
+const StyledHeading = styled.header`
+  background-color: var(--darkgrey);
+  color: white;
+  padding: 1rem;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+`;
