@@ -9,15 +9,9 @@ export default function SearchForm({
     event.preventDefault();
     const searchTermString = event.target.elements.searchTerm.value;
     const searchTerm = searchTermString.replace(/\s/g, "+");
-
-    /*     const response = await fetch(
-      "https://openlibrary.org/search.json?q=" + searchTerm
-    );
-    const matchedBooks = await response.json(); */
     const matchedBooks = await fetchSearchResults(searchTerm);
     onUpdateSearchedBooks(matchedBooks);
     onUpdateCurrentSearchTerm(searchTermString);
-    console.log(matchedBooks);
     event.target.reset();
   }
   return (
