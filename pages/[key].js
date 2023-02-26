@@ -25,10 +25,14 @@ export default function DetailPage({
   }
 
   async function getDescription() {
-    const response = await fetch(`https://openlibrary.org/works/${key}.json`);
-    const matchedBook = await response.json();
-    const currentDescription = matchedBook.description;
-    onUpdateDescription(currentDescription);
+    try {
+      const response = await fetch(`https://openlibrary.org/works/${key}.json`);
+      const matchedBook = await response.json();
+      const currentDescription = matchedBook.description;
+      onUpdateDescription(currentDescription);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   useEffect(() => {

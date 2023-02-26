@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import fetchSearchResults from "@/helpers/fetchSearchResults";
 
 export default function SearchForm({
   onUpdateCurrentSearchTerm,
@@ -9,10 +10,11 @@ export default function SearchForm({
     const searchTermString = event.target.elements.searchTerm.value;
     const searchTerm = searchTermString.replace(/\s/g, "+");
 
-    const response = await fetch(
+    /*     const response = await fetch(
       "https://openlibrary.org/search.json?q=" + searchTerm
     );
-    const matchedBooks = await response.json();
+    const matchedBooks = await response.json(); */
+    const matchedBooks = await fetchSearchResults(searchTerm);
     onUpdateSearchedBooks(matchedBooks);
     onUpdateCurrentSearchTerm(searchTermString);
     console.log(matchedBooks);
