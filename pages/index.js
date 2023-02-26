@@ -1,6 +1,7 @@
 import Head from "next/head";
 import styled from "styled-components";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home({
   onUpdateSearchedBooks,
@@ -50,20 +51,22 @@ export default function Home({
           </CurrentSearchTerm>
         )}
         {searchedBooks.docs?.map((book) => (
-          <SearchResult key={book.key}>
-            <Author>author: {book.author_name}</Author>
-            <Title>title: {book.title}</Title>
-            <StyledImage
-              src={
-                Array.isArray(book.isbn)
-                  ? `https://covers.openlibrary.org/b/isbn/${book.isbn[0]}-S.jpg`
-                  : `https://covers.openlibrary.org/b/isbn/${book.isbn}-S.jpg`
-              }
-              width={50}
-              height={80}
-              alt={`cover image of ${book.title}`}
-            />
-          </SearchResult>
+          <StyledLink href={`/${book.key.split("/")[2]}`} key={book.key}>
+            <SearchResult>
+              <Author>author: {book.author_name}</Author>
+              <Title>title: {book.title}</Title>
+              <StyledImage
+                src={
+                  Array.isArray(book.isbn)
+                    ? `https://covers.openlibrary.org/b/isbn/${book.isbn[0]}-S.jpg`
+                    : `https://covers.openlibrary.org/b/isbn/${book.isbn}-S.jpg`
+                }
+                width={50}
+                height={80}
+                alt={`cover image of ${book.title}`}
+              />
+            </SearchResult>
+          </StyledLink>
         ))}
       </main>
     </>
@@ -135,4 +138,9 @@ const StyledHeading = styled.header`
   font-size: 2rem;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: black;
 `;
