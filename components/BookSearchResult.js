@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function BookSearchResult({ book }) {
+  console.log(book);
   return (
     <StyledLink href={`/${book.key.split("/")[2]}`}>
       <SearchResult>
@@ -17,6 +18,7 @@ export default function BookSearchResult({ book }) {
           width={50}
           height={80}
           alt={`cover image of ${book.title}`}
+          unoptimized={true}
         />
       </SearchResult>
     </StyledLink>
