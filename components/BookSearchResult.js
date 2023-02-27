@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function BookSearchResult({ book }) {
-  console.log(book);
   return (
     <StyledLink href={`/${book.key.split("/")[2]}`}>
       <SearchResult>
