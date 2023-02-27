@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import BackgroundImage from "@/components/BackgroundImage";
 import BookDetails from "@/components/BookDetails";
+import NothingHere from "@/components/NothingHere";
 
 export default function DetailPage({
   searchedBooks,
@@ -14,14 +15,14 @@ export default function DetailPage({
   const { key } = router.query;
 
   if (!searchedBooks) {
-    return null;
+    return <NothingHere />;
   }
   const currentBook = searchedBooks.docs?.find(
     (book) => book.key.split("/")[2] === key
   );
 
   if (!currentBook) {
-    return null;
+    return <NothingHere />;
   }
 
   async function getDescription() {

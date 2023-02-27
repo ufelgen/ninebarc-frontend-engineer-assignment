@@ -5,6 +5,7 @@ import Lottie from "lottie-react";
 import Header from "@/components/Header";
 import SearchForm from "@/components/SearchForm";
 import BookSearchResult from "@/components/BookSearchResult";
+import NoResults from "@/components/NoResults";
 import LottieBook from "../public/Lottie/LottieBook";
 
 export default function Home({
@@ -36,16 +37,23 @@ export default function Home({
           </>
         ) : (
           <>
+            {" "}
             {currentSearchTerm !== "" && (
               <CurrentSearchTerm>
-                search results for: "{currentSearchTerm}"
+                you searched for: "{currentSearchTerm}"
               </CurrentSearchTerm>
             )}
-            {searchedBooks.docs?.map((book) => (
-              <Fragment key={book.key}>
-                <BookSearchResult book={book} />
-              </Fragment>
-            ))}
+            {searchedBooks.numFound === 0 ? (
+              <NoResults />
+            ) : (
+              <>
+                {searchedBooks.docs?.map((book) => (
+                  <Fragment key={book.key}>
+                    <BookSearchResult book={book} />
+                  </Fragment>
+                ))}
+              </>
+            )}
           </>
         )}
       </main>
