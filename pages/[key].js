@@ -8,7 +8,6 @@ import BookDetails from "@/components/BookDetails";
 import NothingHere from "@/components/NothingHere";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
-import getDescription from "../helpers/fetchDescription";
 import { setDescription } from "@/redux/descriptionSlice";
 
 export default function DetailPage() {
@@ -17,12 +16,6 @@ export default function DetailPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    /*     function handleSetDescription(description) {
-      dispatch(setDescription(description));
-    }
-
-    getDescription(key, handleSetDescription); */
-
     async function getDescription() {
       try {
         const response = await fetch(
