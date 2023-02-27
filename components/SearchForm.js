@@ -14,8 +14,6 @@ export default function SearchForm({
     onUpdateSearchedBooks(matchedBooks);
     onUpdateCurrentSearchTerm(searchTermString);
     toggleSearching();
-
-    console.log(matchedBooks);
     event.target.reset();
   }
   return (
