@@ -9,15 +9,14 @@ import NoResults from "@/components/NoResults";
 import LottieBook from "../public/Lottie/LottieBook";
 import { BsFillArrowUpCircleFill } from "react-icons/bs";
 import scrollToTop from "../helpers/scrollToTop";
+import { useSelector } from "react-redux";
 
-export default function Home({
-  onUpdateSearchedBooks,
-  searchedBooks,
-  onUpdateCurrentSearchTerm,
-  currentSearchTerm,
-  toggleSearching,
-  searching,
-}) {
+export default function Home() {
+  const searching = useSelector((state) => state.searching.value);
+  const currentSearchTerm = useSelector(
+    (state) => state.currentSearchTerm.value
+  );
+  const searchedBooks = useSelector((state) => state.searchedBooks.value);
   return (
     <>
       <Head>
@@ -25,11 +24,7 @@ export default function Home({
       </Head>
       <Header />
       <main>
-        <SearchForm
-          onUpdateCurrentSearchTerm={onUpdateCurrentSearchTerm}
-          onUpdateSearchedBooks={onUpdateSearchedBooks}
-          toggleSearching={toggleSearching}
-        />
+        <SearchForm />
         {searching ? (
           <>
             <CurrentSearchTerm>
@@ -55,7 +50,7 @@ export default function Home({
                   </Fragment>
                 ))}
                 <TopButton onClick={scrollToTop}>
-                  <BsFillArrowUpCircleFill size="7vh" />
+                  <BsFillArrowUpCircleFill size="7vh" color="darkgrey" />
                 </TopButton>
               </>
             )}
@@ -80,4 +75,5 @@ const TopButton = styled.button`
   background-color: white;
   border-radius: 50%;
   height: 7vh;
+  border: none;
 `;
