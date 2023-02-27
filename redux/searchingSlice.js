@@ -6,13 +6,13 @@ export const searchingSlice = createSlice({
     value: false,
   },
   reducers: {
-    toggle: (state) => {
+    toggleSearching: (state) => {
       state.value = !state.value;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { toggle } = searchingSlice.actions;
+export const { toggleSearching } = searchingSlice.actions;
 
 export default searchingSlice.reducer;

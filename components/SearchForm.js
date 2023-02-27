@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { toggle } from "../redux/searchingSlice";
+import { toggleSearching } from "../redux/searchingSlice";
 import { setCurrentSearchTerm } from "../redux/currentSearchTermSlice";
 import { setSearchedBooks } from "../redux/searchedBooksSlice";
 import styled from "styled-components";
@@ -8,10 +8,10 @@ import fetchSearchResults from "../helpers/fetchSearchResults";
 export default function SearchForm() {
   const dispatch = useDispatch();
 
-  function toggleSearching() {
-    dispatch(toggle());
+  function toggleSearchingState() {
+    dispatch(toggleSearching());
     setTimeout(() => {
-      dispatch(toggle());
+      dispatch(toggleSearching());
     }, "5000");
   }
 
@@ -22,7 +22,7 @@ export default function SearchForm() {
     const matchedBooks = await fetchSearchResults(searchTerm);
     dispatch(setSearchedBooks(matchedBooks));
     dispatch(setCurrentSearchTerm(searchTermString));
-    toggleSearching();
+    toggleSearchingState();
     event.target.reset();
   }
   return (

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const searchedBooksSlice = createSlice({
   name: "searchedBooks",
   initialState: {
-    value: [],
+    value: {},
   },
   reducers: {
     setSearchedBooks: (state, action) => {

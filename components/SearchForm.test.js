@@ -36,8 +36,9 @@ test("resets the form after submit", async () => {
   });
 
   await user.type(inputField, "the light fantastic");
-  await user.click(submitButton);
+  expect(inputField).toHaveValue("the light fantastic");
 
+  await user.click(submitButton);
   expect(inputField).toHaveValue("");
   //expect(setCurrentSearchTerm).toHaveBeenCalledWith("the light fantastic");
 });

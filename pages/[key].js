@@ -15,8 +15,8 @@ export default function DetailPage() {
   const { key } = router.query;
 
   const searchedBooks = useSelector((state) => state.searchedBooks.value);
-  const dispatch = useDispatch();
   const description = useSelector((state) => state.description.value);
+  const dispatch = useDispatch();
 
   if (!searchedBooks) {
     return <NothingHere />;
