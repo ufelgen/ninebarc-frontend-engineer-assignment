@@ -9,15 +9,16 @@ import NoResults from "@/components/NoResults";
 import LottieBook from "../public/Lottie/LottieBook";
 import { BsFillArrowUpCircleFill } from "react-icons/bs";
 import scrollToTop from "../helpers/scrollToTop";
+import { useSelector } from "react-redux";
 
-export default function Home({
-  onUpdateSearchedBooks,
-  searchedBooks,
-  onUpdateCurrentSearchTerm,
-  currentSearchTerm,
-  toggleSearching,
-  searching,
-}) {
+export default function Home() {
+  const searchingTestiHuhu = useSelector((state) => state.searching.value);
+  const currentSearchTermTestiHuhu = useSelector(
+    (state) => state.currentSearchTerm.value
+  );
+  const searchedBooksHuhuTesti = useSelector(
+    (state) => state.searchedBooks.value
+  );
   return (
     <>
       <Head>
@@ -25,37 +26,33 @@ export default function Home({
       </Head>
       <Header />
       <main>
-        <SearchForm
-          onUpdateCurrentSearchTerm={onUpdateCurrentSearchTerm}
-          onUpdateSearchedBooks={onUpdateSearchedBooks}
-          toggleSearching={toggleSearching}
-        />
-        {searching ? (
+        <SearchForm />
+        {searchingTestiHuhu ? (
           <>
             <CurrentSearchTerm>
-              searching for: "{currentSearchTerm}"
+              searching for: "{currentSearchTermTestiHuhu}"
             </CurrentSearchTerm>
             <Lottie animationData={LottieBook} loop={true} />
           </>
         ) : (
           <>
             {" "}
-            {currentSearchTerm !== "" && (
+            {currentSearchTermTestiHuhu !== "" && (
               <CurrentSearchTerm>
-                you searched for: "{currentSearchTerm}"
+                you searched for: "{currentSearchTermTestiHuhu}"
               </CurrentSearchTerm>
             )}
-            {searchedBooks.numFound === 0 ? (
+            {searchedBooksHuhuTesti.numFound === 0 ? (
               <NoResults />
             ) : (
               <>
-                {searchedBooks.docs?.map((book) => (
+                {searchedBooksHuhuTesti.docs?.map((book) => (
                   <Fragment key={book.key}>
                     <BookSearchResult book={book} />
                   </Fragment>
                 ))}
                 <TopButton onClick={scrollToTop}>
-                  <BsFillArrowUpCircleFill size="7vh" />
+                  <BsFillArrowUpCircleFill size="7vh" color="darkgrey" />
                 </TopButton>
               </>
             )}
@@ -80,4 +77,5 @@ const TopButton = styled.button`
   background-color: white;
   border-radius: 50%;
   height: 7vh;
+  border: none;
 `;

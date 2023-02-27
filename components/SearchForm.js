@@ -1,19 +1,28 @@
+import { useDispatch } from "react-redux";
+import { toggle } from "@/redux/searchingSlice";
+import { setCurrentSearchTerm } from "@/redux/currentSearchTermSlice";
+import { setSearchedBooks } from "@/redux/searchedBooksSlice";
 import styled from "styled-components";
 import fetchSearchResults from "../helpers/fetchSearchResults";
 
-export default function SearchForm({
-  onUpdateCurrentSearchTerm,
-  onUpdateSearchedBooks,
-  toggleSearching,
-}) {
+export default function SearchForm() {
+  const dispatch = useDispatch();
+
+  function toggleSearchingNew() {
+    dispatch(toggle());
+    setTimeout(() => {
+      dispatch(toggle());
+    }, "5000");
+  }
+
   async function getBooks(event) {
     event.preventDefault();
     const searchTermString = event.target.elements.searchTerm.value;
     const searchTerm = searchTermString.replace(/\s/g, "+");
     const matchedBooks = await fetchSearchResults(searchTerm);
-    onUpdateSearchedBooks(matchedBooks);
-    onUpdateCurrentSearchTerm(searchTermString);
-    toggleSearching();
+    dispatch(setSearchedBooks(matchedBooks));
+    dispatch(setCurrentSearchTerm(searchTermString));
+    toggleSearchingNew();
     event.target.reset();
   }
   return (
