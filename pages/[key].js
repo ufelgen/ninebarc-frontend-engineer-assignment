@@ -71,4 +71,5 @@ const StyledLink = styled(Link)`
   background-color: white;
   border-radius: 50%;
   height: 7vh;
+  width: 7vh;
 `;

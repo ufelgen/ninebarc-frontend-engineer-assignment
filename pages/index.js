@@ -7,6 +7,8 @@ import SearchForm from "@/components/SearchForm";
 import BookSearchResult from "@/components/BookSearchResult";
 import NoResults from "@/components/NoResults";
 import LottieBook from "../public/Lottie/LottieBook";
+import { BsFillArrowUpCircleFill } from "react-icons/bs";
+import scrollToTop from "../helpers/scrollToTop";
 
 export default function Home({
   onUpdateSearchedBooks,
@@ -52,6 +54,9 @@ export default function Home({
                     <BookSearchResult book={book} />
                   </Fragment>
                 ))}
+                <TopButton onClick={scrollToTop}>
+                  <BsFillArrowUpCircleFill size="7vh" />
+                </TopButton>
               </>
             )}
           </>
@@ -65,4 +70,14 @@ const CurrentSearchTerm = styled.p`
   margin: 1rem;
   font-weight: bold;
   color: var(--darkmagenta);
+`;
+
+const TopButton = styled.button`
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  text-decoration: none;
+  background-color: white;
+  border-radius: 50%;
+  height: 7vh;
 `;
