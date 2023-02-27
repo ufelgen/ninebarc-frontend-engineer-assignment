@@ -17,6 +17,7 @@ export default function BookSearchResult({ book }) {
           width={50}
           height={80}
           alt={`cover image of ${book.title}`}
+          unoptimized={true}
         />
       </SearchResult>
     </StyledLink>

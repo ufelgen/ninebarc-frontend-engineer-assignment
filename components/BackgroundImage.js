@@ -12,6 +12,7 @@ export default function BackgroundImage({ currentBook }) {
         }
         fill
         alt={`cover image of ${currentBook.title}`}
+        unoptimized={true}
       />
     </ImageContainer>
   );

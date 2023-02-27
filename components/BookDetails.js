@@ -6,7 +6,7 @@ export default function BookDetails({ currentBook, description }) {
       <p>{currentBook.author_name}</p>
       <h4>{currentBook.title}</h4>
       <p>(first published: {currentBook.first_publish_year})</p>
-      <article className="description">
+      <article className="description" data-testid="description">
         {!description && "no description available"}
         {description?.value ? description.value : description}
       </article>
