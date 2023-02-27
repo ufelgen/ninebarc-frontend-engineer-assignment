@@ -1,15 +1,19 @@
 import Head from "next/head";
 import { Fragment } from "react";
 import styled from "styled-components";
+import Lottie from "lottie-react";
 import Header from "@/components/Header";
 import SearchForm from "@/components/SearchForm";
 import BookSearchResult from "@/components/BookSearchResult";
+import LottieBook from "../public/Lottie/LottieBook";
 
 export default function Home({
   onUpdateSearchedBooks,
   searchedBooks,
   onUpdateCurrentSearchTerm,
   currentSearchTerm,
+  toggleSearching,
+  searching,
 }) {
   return (
     <>
@@ -21,17 +25,29 @@ export default function Home({
         <SearchForm
           onUpdateCurrentSearchTerm={onUpdateCurrentSearchTerm}
           onUpdateSearchedBooks={onUpdateSearchedBooks}
+          toggleSearching={toggleSearching}
         />
-        {currentSearchTerm !== "" && (
-          <CurrentSearchTerm>
-            search results for: "{currentSearchTerm}"
-          </CurrentSearchTerm>
+        {searching ? (
+          <>
+            <CurrentSearchTerm>
+              searching for: "{currentSearchTerm}"
+            </CurrentSearchTerm>
+            <Lottie animationData={LottieBook} loop={true} />
+          </>
+        ) : (
+          <>
+            {currentSearchTerm !== "" && (
+              <CurrentSearchTerm>
+                search results for: "{currentSearchTerm}"
+              </CurrentSearchTerm>
+            )}
+            {searchedBooks.docs?.map((book) => (
+              <Fragment key={book.key}>
+                <BookSearchResult book={book} />
+              </Fragment>
+            ))}
+          </>
         )}
-        {searchedBooks.docs?.map((book) => (
-          <Fragment key={book.key}>
-            <BookSearchResult book={book} />
-          </Fragment>
-        ))}
       </main>
     </>
   );
