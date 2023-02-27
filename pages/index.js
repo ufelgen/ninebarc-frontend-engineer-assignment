@@ -28,16 +28,15 @@ export default function Home() {
         {searching ? (
           <>
             <CurrentSearchTerm>
-              searching for: "{currentSearchTerm}"
+              searching for: &quot;{currentSearchTerm}&quot;
             </CurrentSearchTerm>
             <Lottie animationData={LottieBook} loop={true} />
           </>
         ) : (
           <>
-            {" "}
             {currentSearchTerm !== "" && (
               <CurrentSearchTerm>
-                you searched for: "{currentSearchTerm}"
+                you searched for: &quot;{currentSearchTerm}&quot;
               </CurrentSearchTerm>
             )}
             {searchedBooks.numFound === 0 ? (

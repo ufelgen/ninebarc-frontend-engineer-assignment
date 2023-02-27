@@ -8,7 +8,7 @@ export default function NothingHere() {
     <Section>
       <h3>oh no!</h3>
       <p>something went wrong... </p>
-      <p>we're sorry we cannot find your book</p>
+      <p>we&apos;re sorry we cannot find your book</p>
       <Lottie animationData={LottieNothingHere} loop={true} />
       <StyledLink href="/" aria-label="go back to main page">
         go back
