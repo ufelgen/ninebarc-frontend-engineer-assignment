@@ -16,7 +16,7 @@ export default function DetailPage() {
 
   const searchedBooks = useSelector((state) => state.searchedBooks.value);
   const dispatch = useDispatch();
-  const descriptionTestiHuhu = useSelector((state) => state.description.value);
+  const description = useSelector((state) => state.description.value);
 
   if (!searchedBooks) {
     return <NothingHere />;
@@ -51,10 +51,7 @@ export default function DetailPage() {
       </Head>
       <Main>
         <BackgroundImage currentBook={currentBook} />
-        <BookDetails
-          currentBook={currentBook}
-          description={descriptionTestiHuhu}
-        />
+        <BookDetails currentBook={currentBook} description={description} />
         <StyledLink href="/">
           <BsFillArrowLeftCircleFill size="7vh" color="darkgrey" />
         </StyledLink>

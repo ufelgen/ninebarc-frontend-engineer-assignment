@@ -12,13 +12,11 @@ import scrollToTop from "../helpers/scrollToTop";
 import { useSelector } from "react-redux";
 
 export default function Home() {
-  const searchingTestiHuhu = useSelector((state) => state.searching.value);
-  const currentSearchTermTestiHuhu = useSelector(
+  const searching = useSelector((state) => state.searching.value);
+  const currentSearchTerm = useSelector(
     (state) => state.currentSearchTerm.value
   );
-  const searchedBooksHuhuTesti = useSelector(
-    (state) => state.searchedBooks.value
-  );
+  const searchedBooks = useSelector((state) => state.searchedBooks.value);
   return (
     <>
       <Head>
@@ -27,26 +25,26 @@ export default function Home() {
       <Header />
       <main>
         <SearchForm />
-        {searchingTestiHuhu ? (
+        {searching ? (
           <>
             <CurrentSearchTerm>
-              searching for: "{currentSearchTermTestiHuhu}"
+              searching for: "{currentSearchTerm}"
             </CurrentSearchTerm>
             <Lottie animationData={LottieBook} loop={true} />
           </>
         ) : (
           <>
             {" "}
-            {currentSearchTermTestiHuhu !== "" && (
+            {currentSearchTerm !== "" && (
               <CurrentSearchTerm>
-                you searched for: "{currentSearchTermTestiHuhu}"
+                you searched for: "{currentSearchTerm}"
               </CurrentSearchTerm>
             )}
-            {searchedBooksHuhuTesti.numFound === 0 ? (
+            {searchedBooks.numFound === 0 ? (
               <NoResults />
             ) : (
               <>
-                {searchedBooksHuhuTesti.docs?.map((book) => (
+                {searchedBooks.docs?.map((book) => (
                   <Fragment key={book.key}>
                     <BookSearchResult book={book} />
                   </Fragment>
