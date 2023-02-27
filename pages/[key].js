@@ -8,15 +8,38 @@ import BookDetails from "@/components/BookDetails";
 import NothingHere from "@/components/NothingHere";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
+import getDescription from "../helpers/fetchDescription";
 import { setDescription } from "@/redux/descriptionSlice";
 
 export default function DetailPage() {
   const router = useRouter();
   const { key } = router.query;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    /*     function handleSetDescription(description) {
+      dispatch(setDescription(description));
+    }
+
+    getDescription(key, handleSetDescription); */
+
+    async function getDescription() {
+      try {
+        const response = await fetch(
+          `https://openlibrary.org/works/${key}.json`
+        );
+        const matchedBook = await response.json();
+        const currentDescription = matchedBook.description;
+        dispatch(setDescription(currentDescription));
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getDescription();
+  }, [key]);
 
   const searchedBooks = useSelector((state) => state.searchedBooks.value);
   const description = useSelector((state) => state.description.value);
-  const dispatch = useDispatch();
 
   if (!searchedBooks) {
     return <NothingHere />;
@@ -28,21 +51,6 @@ export default function DetailPage() {
   if (!currentBook) {
     return <NothingHere />;
   }
-
-  async function getDescription() {
-    try {
-      const response = await fetch(`https://openlibrary.org/works/${key}.json`);
-      const matchedBook = await response.json();
-      const currentDescription = matchedBook.description;
-      dispatch(setDescription(currentDescription));
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  useEffect(() => {
-    getDescription();
-  }, []);
 
   return (
     <>
