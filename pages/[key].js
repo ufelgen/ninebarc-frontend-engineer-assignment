@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import BackgroundImage from "@/components/BackgroundImage";
 import BookDetails from "@/components/BookDetails";
+import NothingHere from "@/components/NothingHere";
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 
 export default function DetailPage({
   searchedBooks,
@@ -14,14 +17,14 @@ export default function DetailPage({
   const { key } = router.query;
 
   if (!searchedBooks) {
-    return null;
+    return <NothingHere />;
   }
   const currentBook = searchedBooks.docs?.find(
     (book) => book.key.split("/")[2] === key
   );
 
   if (!currentBook) {
-    return null;
+    return <NothingHere />;
   }
 
   async function getDescription() {
@@ -47,6 +50,9 @@ export default function DetailPage({
       <Main>
         <BackgroundImage currentBook={currentBook} />
         <BookDetails currentBook={currentBook} description={description} />
+        <StyledLink href="/">
+          <BsFillArrowLeftCircleFill size="7vh" color="darkgrey" />
+        </StyledLink>
       </Main>
     </>
   );
@@ -54,4 +60,16 @@ export default function DetailPage({
 const Main = styled.main`
   display: flex;
   justify-content: center;
+  position: relative;
+`;
+
+const StyledLink = styled(Link)`
+  position: fixed;
+  top: 5%;
+  left: 5%;
+  text-decoration: none;
+  background-color: white;
+  border-radius: 50%;
+  height: 7vh;
+  width: 7vh;
 `;

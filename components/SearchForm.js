@@ -4,6 +4,7 @@ import fetchSearchResults from "../helpers/fetchSearchResults";
 export default function SearchForm({
   onUpdateCurrentSearchTerm,
   onUpdateSearchedBooks,
+  toggleSearching,
 }) {
   async function getBooks(event) {
     event.preventDefault();
@@ -12,6 +13,7 @@ export default function SearchForm({
     const matchedBooks = await fetchSearchResults(searchTerm);
     onUpdateSearchedBooks(matchedBooks);
     onUpdateCurrentSearchTerm(searchTermString);
+    toggleSearching();
     event.target.reset();
   }
   return (

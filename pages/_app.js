@@ -6,6 +6,7 @@ export default function App({ Component, pageProps }) {
   const [searchedBooks, setSearchedBooks] = useState([]);
   const [currentSearchTerm, setCurrentSearchTerm] = useState("");
   const [description, setDescription] = useState("");
+  const [searching, setSearching] = useState(false);
 
   function handleUpdateSearchedBooks(newBooks) {
     setSearchedBooks(newBooks);
@@ -17,6 +18,13 @@ export default function App({ Component, pageProps }) {
 
   function handleUpdateDescription(description) {
     setDescription(description);
+  }
+
+  function handleToggleSearching() {
+    setSearching(true);
+    setTimeout(() => {
+      setSearching(false);
+    }, "5000");
   }
   return (
     <>
@@ -33,6 +41,8 @@ export default function App({ Component, pageProps }) {
         currentSearchTerm={currentSearchTerm}
         onUpdateDescription={handleUpdateDescription}
         description={description}
+        toggleSearching={handleToggleSearching}
+        searching={searching}
       />
     </>
   );
