@@ -11,6 +11,7 @@ import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { setDescription } from "@/redux/descriptionSlice";
 import useLocalStorageState from "use-local-storage-state";
+import { current } from "@reduxjs/toolkit";
 
 export default function DetailPage({
   onAddToFavourites,
@@ -40,12 +41,22 @@ export default function DetailPage({
   const description = useSelector((state) => state.description.value);
   const [favourites] = useLocalStorageState("favourites");
 
-  if (!searchedBooks) {
-    return <NothingHere />;
+  function getCurrentBook() {
+    if (searchedBooks.docs?.find((book) => book.key.split("/")[2] === key)) {
+      const currentBook = searchedBooks.docs?.find(
+        (book) => book.key.split("/")[2] === key
+      );
+      return currentBook;
+    } else {
+      const currentBook = favourites.find(
+        (book) => book.key.split("/")[2] === key
+      );
+
+      return currentBook;
+    }
   }
-  const currentBook = searchedBooks.docs?.find(
-    (book) => book.key.split("/")[2] === key
-  );
+
+  const currentBook = getCurrentBook();
 
   if (!currentBook) {
     return <NothingHere />;
