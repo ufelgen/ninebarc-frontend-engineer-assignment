@@ -7,10 +7,15 @@ import BackgroundImage from "@/components/BackgroundImage";
 import BookDetails from "@/components/BookDetails";
 import NothingHere from "@/components/NothingHere";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { setDescription } from "@/redux/descriptionSlice";
+import useLocalStorageState from "use-local-storage-state";
 
-export default function DetailPage() {
+export default function DetailPage({
+  onAddToFavourites,
+  onRemoveFromFavourites,
+}) {
   const router = useRouter();
   const { key } = router.query;
   const dispatch = useDispatch();
@@ -33,6 +38,7 @@ export default function DetailPage() {
 
   const searchedBooks = useSelector((state) => state.searchedBooks.value);
   const description = useSelector((state) => state.description.value);
+  const [favourites] = useLocalStorageState("favourites");
 
   if (!searchedBooks) {
     return <NothingHere />;
@@ -43,6 +49,11 @@ export default function DetailPage() {
 
   if (!currentBook) {
     return <NothingHere />;
+  }
+
+  function determineIfIsFavourite() {
+    const isFavourite = favourites.find((book) => book.key === currentBook.key);
+    return isFavourite;
   }
 
   return (
@@ -56,6 +67,15 @@ export default function DetailPage() {
         <StyledLink href="/">
           <BsFillArrowLeftCircleFill size="7vh" color="darkgrey" />
         </StyledLink>
+        {determineIfIsFavourite() ? (
+          <FavouritesButton onClick={() => onRemoveFromFavourites(currentBook)}>
+            <IoIosHeart size="6vh" color="darkgrey" />
+          </FavouritesButton>
+        ) : (
+          <FavouritesButton onClick={() => onAddToFavourites(currentBook)}>
+            <IoIosHeartEmpty size="6vh" color="darkgrey" />
+          </FavouritesButton>
+        )}
       </Main>
     </>
   );
@@ -73,6 +93,21 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   background-color: white;
   border-radius: 50%;
+  border: none;
   height: 7vh;
   width: 7vh;
+`;
+
+const FavouritesButton = styled.button`
+  position: fixed;
+  top: 5%;
+  right: 5%;
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  height: 7vh;
+  width: 7vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
