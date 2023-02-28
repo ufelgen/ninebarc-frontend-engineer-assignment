@@ -47,7 +47,7 @@ export default function DetailPage({
       );
       return currentBook;
     } else {
-      const currentBook = favourites.find(
+      const currentBook = favourites?.find(
         (book) => book.key.split("/")[2] === key
       );
 
