@@ -8,6 +8,9 @@ export default function App({ Component, pageProps }) {
   const [favourites, setFavourites] = useLocalStorageState("favourites", {
     defaultValue: [],
   });
+  const [currentBook, setCurrentBook] = useLocalStorageState("currentBook", {
+    defaultValue: {},
+  });
 
   function handleAddToFavourites(currentBook) {
     setFavourites([...favourites, currentBook]);
@@ -15,6 +18,10 @@ export default function App({ Component, pageProps }) {
 
   function handleRemoveFromFavourites(currentBook) {
     setFavourites(favourites.filter((book) => book.key !== currentBook.key));
+  }
+
+  function updateCurrentBook(book) {
+    setCurrentBook(book);
   }
   return (
     <Provider store={store}>
@@ -27,6 +34,7 @@ export default function App({ Component, pageProps }) {
         {...pageProps}
         onAddToFavourites={handleAddToFavourites}
         onRemoveFromFavourites={handleRemoveFromFavourites}
+        onUpdateCurrentBook={updateCurrentBook}
       />
     </Provider>
   );

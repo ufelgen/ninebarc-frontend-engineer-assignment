@@ -11,11 +11,11 @@ import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { setDescription } from "@/redux/descriptionSlice";
 import useLocalStorageState from "use-local-storage-state";
-import { current } from "@reduxjs/toolkit";
 
 export default function DetailPage({
   onAddToFavourites,
   onRemoveFromFavourites,
+  onUpdateCurrentBook,
 }) {
   const router = useRouter();
   const { key } = router.query;
@@ -40,6 +40,7 @@ export default function DetailPage({
   const searchedBooks = useSelector((state) => state.searchedBooks.value);
   const description = useSelector((state) => state.description.value);
   const [favourites] = useLocalStorageState("favourites");
+  const [currentBook] = useLocalStorageState("currentBook");
 
   function getCurrentBook() {
     if (searchedBooks.docs?.find((book) => book.key.split("/")[2] === key)) {
@@ -56,7 +57,8 @@ export default function DetailPage({
     }
   }
 
-  const currentBook = getCurrentBook();
+  const thisBook = getCurrentBook();
+  onUpdateCurrentBook(thisBook);
 
   if (!currentBook) {
     return <NothingHere />;
@@ -75,9 +77,9 @@ export default function DetailPage({
       <Main>
         <BackgroundImage currentBook={currentBook} />
         <BookDetails currentBook={currentBook} description={description} />
-        <StyledLink href="/">
+        <BackButton onClick={() => router.back()}>
           <BsFillArrowLeftCircleFill size="7vh" color="darkgrey" />
-        </StyledLink>
+        </BackButton>
         {determineIfIsFavourite() ? (
           <FavouritesButton onClick={() => onRemoveFromFavourites(currentBook)}>
             <IoIosHeart size="6vh" color="darkgrey" />
@@ -97,7 +99,7 @@ const Main = styled.main`
   position: relative;
 `;
 
-const StyledLink = styled(Link)`
+const BackButton = styled.button`
   position: fixed;
   top: 5%;
   left: 5%;
