@@ -1,11 +1,27 @@
 import styled from "styled-components";
 import { GiBookshelf } from "react-icons/gi";
+import { IoIosHeart } from "react-icons/io";
+import { useRouter } from "next/router";
 
 export default function Header() {
+  const { pathname } = useRouter();
   return (
     <StyledHeading>
-      <StyledIcon />
-      Book Quest
+      {pathname === "/" ? (
+        <>
+          <StyledBooksIcon />
+          Book Quest
+        </>
+      ) : (
+        <>
+          Your Fav
+          <StyledHeart />
+          urite B
+          <StyledHeart />
+          <StyledHeart />
+          ks
+        </>
+      )}
     </StyledHeading>
   );
 }
@@ -22,6 +38,11 @@ const StyledHeading = styled.header`
   border-bottom-right-radius: 10px;
 `;
 
-const StyledIcon = styled(GiBookshelf)`
+const StyledBooksIcon = styled(GiBookshelf)`
   margin-right: 0.5rem;
+`;
+
+const StyledHeart = styled(IoIosHeart)`
+  font-size: 1.5rem;
+  margin-bottom: -3px;
 `;
