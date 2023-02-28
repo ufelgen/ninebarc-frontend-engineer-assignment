@@ -66,11 +66,19 @@ export default function DetailPage({
     return isFavourite;
   }
 
+  function determineIfCurrentBookIsPartOfSearchedBooks() {
+    const isPart = searchedBooks.docs?.find(
+      (book) => book.key === currentBook.key
+    );
+    return isPart;
+  }
   function handleRemoveFromFavouritesFinal(currentBook) {
     const confirmation = confirm(
       "do you really want to remove this book from your favourites?"
     );
-    if (confirmation) {
+    if (confirmation && determineIfCurrentBookIsPartOfSearchedBooks()) {
+      onRemoveFromFavourites(currentBook);
+    } else if (confirmation && !determineIfCurrentBookIsPartOfSearchedBooks()) {
       onRemoveFromFavourites(currentBook);
       router.push("/favourites");
     }
