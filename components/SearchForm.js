@@ -17,7 +17,7 @@ export default function SearchForm() {
 
   async function getBooks(event) {
     event.preventDefault();
-    const searchTermString = event.target.elements.searchTerm.value;
+    const searchTermString = event.target.elements.searchTerm.value.trim();
     const searchTerm = searchTermString.replace(/\s/g, "+");
     const matchedBooks = await fetchSearchResults(searchTerm);
     dispatch(setSearchedBooks(matchedBooks));
