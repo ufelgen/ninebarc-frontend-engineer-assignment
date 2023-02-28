@@ -10,7 +10,7 @@ export default function Favourites() {
   return (
     <>
       <Header />
-      {favourites[0] ? (
+      {favourites?.[0] ? (
         <>
           {favourites?.map((book) => (
             <Fragment key={book.key}>
