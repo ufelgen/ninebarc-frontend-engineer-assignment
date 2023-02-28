@@ -9,25 +9,22 @@ export default function Footer() {
 
   return (
     <StyledFooter>
-      {pathname === "/" ? (
-        <>
-          <StyledLink href={"/"}>
+      <>
+        <StyledLink href={"/"}>
+          {pathname === "/" ? (
             <AiFillHome size="7vh" color="white" />
-          </StyledLink>
-          <StyledLink href={"/favourites"}>
-            <IoIosHeartEmpty size="7vh" color="white" />
-          </StyledLink>
-        </>
-      ) : (
-        <>
-          <StyledLink href={"/"}>
+          ) : (
             <AiOutlineHome size="7vh" color="white" />
-          </StyledLink>
-          <StyledLink href={"/favourites"}>
+          )}
+        </StyledLink>
+        <StyledLink href={"/favourites"}>
+          {pathname === "/" ? (
+            <IoIosHeartEmpty size="7vh" color="white" />
+          ) : (
             <IoIosHeart size="7vh" color="white" />
-          </StyledLink>
-        </>
-      )}
+          )}
+        </StyledLink>
+      </>
     </StyledFooter>
   );
 }
