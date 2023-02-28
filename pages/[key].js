@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import { useEffect } from "react";
 import BackgroundImage from "@/components/BackgroundImage";
 import BookDetails from "@/components/BookDetails";
@@ -15,7 +15,6 @@ import useLocalStorageState from "use-local-storage-state";
 export default function DetailPage({
   onAddToFavourites,
   onRemoveFromFavourites,
-  onUpdateCurrentBook,
 }) {
   const router = useRouter();
   const { key } = router.query;
@@ -40,7 +39,6 @@ export default function DetailPage({
   const searchedBooks = useSelector((state) => state.searchedBooks.value);
   const description = useSelector((state) => state.description.value);
   const [favourites] = useLocalStorageState("favourites");
-  const [currentBook] = useLocalStorageState("currentBook");
 
   function getCurrentBook() {
     if (searchedBooks.docs?.find((book) => book.key.split("/")[2] === key)) {
@@ -57,8 +55,7 @@ export default function DetailPage({
     }
   }
 
-  const thisBook = getCurrentBook();
-  onUpdateCurrentBook(thisBook);
+  const currentBook = getCurrentBook();
 
   if (!currentBook) {
     return <NothingHere />;
@@ -67,6 +64,16 @@ export default function DetailPage({
   function determineIfIsFavourite() {
     const isFavourite = favourites.find((book) => book.key === currentBook.key);
     return isFavourite;
+  }
+
+  function handleRemoveFromFavouritesFinal(currentBook) {
+    const confirmation = confirm(
+      "do you really want to remove this book from your favourites?"
+    );
+    if (confirmation) {
+      onRemoveFromFavourites(currentBook);
+      router.push("/favourites");
+    }
   }
 
   return (
@@ -81,7 +88,9 @@ export default function DetailPage({
           <BsFillArrowLeftCircleFill size="7vh" color="darkgrey" />
         </BackButton>
         {determineIfIsFavourite() ? (
-          <FavouritesButton onClick={() => onRemoveFromFavourites(currentBook)}>
+          <FavouritesButton
+            onClick={() => handleRemoveFromFavouritesFinal(currentBook)}
+          >
             <IoIosHeart size="6vh" color="darkgrey" />
           </FavouritesButton>
         ) : (
