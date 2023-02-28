@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Head from "next/head";
-import Link from "next/link";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import BackgroundImage from "@/components/BackgroundImage";
 import BookDetails from "@/components/BookDetails";
@@ -72,6 +71,7 @@ export default function DetailPage({
     );
     return isPart;
   }
+
   function handleRemoveFromFavouritesFinal(currentBook) {
     const confirmation = confirm(
       "do you really want to remove this book from your favourites?"

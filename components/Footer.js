@@ -39,11 +39,6 @@ const StyledFooter = styled.footer`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-  }
 `;
 
 const StyledLink = styled(Link)`
