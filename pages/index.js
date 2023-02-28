@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import SearchForm from "@/components/SearchForm";
 import BookSearchResult from "@/components/BookSearchResult";
 import NoResults from "@/components/NoResults";
+import Footer from "@/components/Footer";
 import LottieBook from "../public/Lottie/LottieBook";
 import { BsFillArrowUpCircleFill } from "react-icons/bs";
 import scrollToTop from "../helpers/scrollToTop";
@@ -55,6 +56,7 @@ export default function Home() {
             )}
           </>
         )}
+        <Footer />
       </main>
     </>
   );
@@ -68,7 +70,7 @@ const CurrentSearchTerm = styled.p`
 
 const TopButton = styled.button`
   position: fixed;
-  bottom: 5%;
+  bottom: 12%;
   right: 5%;
   text-decoration: none;
   background-color: white;
