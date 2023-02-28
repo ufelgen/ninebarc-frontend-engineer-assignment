@@ -39,6 +39,9 @@ const StyledFooter = styled.footer`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  max-width: 800px;
 `;
 
 const StyledLink = styled(Link)`
