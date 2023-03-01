@@ -12,16 +12,24 @@ export default function Footer() {
       <>
         <StyledLink href={"/"}>
           {pathname === "/" ? (
-            <AiFillHome size="7vh" color="white" />
+            <AiFillHome size="7vh" color="white" data-testid="home-filled" />
           ) : (
-            <AiOutlineHome size="7vh" color="white" />
+            <AiOutlineHome
+              size="7vh"
+              color="white"
+              data-testid="home-outline"
+            />
           )}
         </StyledLink>
         <StyledLink href={"/favourites"}>
           {pathname === "/" ? (
-            <IoIosHeartEmpty size="7vh" color="white" />
+            <IoIosHeartEmpty
+              size="7vh"
+              color="white"
+              data-testid="heart-outline"
+            />
           ) : (
-            <IoIosHeart size="7vh" color="white" />
+            <IoIosHeart size="7vh" color="white" data-testid="heart-filled" />
           )}
         </StyledLink>
       </>
