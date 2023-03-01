@@ -8,25 +8,27 @@ import BookSearchResult from "@/components/BookSearchResult";
 import NoResults from "@/components/NoResults";
 import Footer from "@/components/Footer";
 import LottieBook from "../public/Lottie/LottieBook";
-import { BsFillArrowUpCircleFill } from "react-icons/bs";
+import {
+  BsFillArrowUpCircleFill,
+  BsFillArrowLeftCircleFill,
+  BsFillArrowRightCircleFill,
+} from "react-icons/bs";
 import scrollToTop from "../helpers/scrollToTop";
 import { useSelector } from "react-redux";
 import fetchSearchResults from "@/helpers/fetchSearchResults";
 import { useDispatch } from "react-redux";
 import { setSearchedBooks } from "../redux/searchedBooksSlice";
-
-import { useState } from "react";
+import { pageUp, pageDown } from "../redux/pageSlice";
 
 export default function Home() {
   const dispatch = useDispatch();
-
-  const [page, setPage] = useState(1);
 
   const searching = useSelector((state) => state.searching.value);
   const currentSearchTerm = useSelector(
     (state) => state.currentSearchTerm.value
   );
   const searchedBooks = useSelector((state) => state.searchedBooks.value);
+  const page = useSelector((state) => state.page.value);
 
   function determineSpecification(specification, searchTermPlus) {
     if (specification === "none" || specification === "") {
@@ -40,6 +42,7 @@ export default function Home() {
       return searchTerm;
     }
   }
+
   async function handlePreviousPage() {
     const prevPage = page - 1;
     const searchTermPlus = currentSearchTerm[0].replace(/\s/g, "+");
@@ -52,7 +55,7 @@ export default function Home() {
     dispatch(setSearchedBooks(matchedBooks));
     scrollToTop();
 
-    setPage((prevPage) => prevPage - 1);
+    dispatch(pageDown());
   }
 
   async function handleNextPage() {
@@ -67,7 +70,7 @@ export default function Home() {
     dispatch(setSearchedBooks(matchedBooks));
     scrollToTop();
 
-    setPage((prevPage) => prevPage + 1);
+    dispatch(pageUp());
   }
 
   function determineMaxPage() {
@@ -123,18 +126,29 @@ export default function Home() {
                 ))}
                 {searchedBooks?.docs && (
                   <>
-                    <button onClick={handlePreviousPage} disabled={page === 1}>
-                      prev
-                    </button>
-                    <span>
-                      {page} of {determineMaxPage()}
-                    </span>
-                    <button
-                      onClick={handleNextPage}
-                      disabled={page === determineMaxPage()}
-                    >
-                      next
-                    </button>
+                    <PaginationBox>
+                      <button
+                        onClick={handlePreviousPage}
+                        disabled={page === 1}
+                      >
+                        <BsFillArrowLeftCircleFill
+                          size="7vh"
+                          color="darkgrey"
+                        />
+                      </button>
+                      <span>
+                        {page} of {determineMaxPage()}
+                      </span>
+                      <button
+                        onClick={handleNextPage}
+                        disabled={page === determineMaxPage()}
+                      >
+                        <BsFillArrowRightCircleFill
+                          size="7vh"
+                          color="darkgrey"
+                        />
+                      </button>
+                    </PaginationBox>
                     <TopButton onClick={scrollToTop}>
                       <BsFillArrowUpCircleFill size="7vh" color="darkgrey" />
                     </TopButton>
@@ -163,8 +177,8 @@ const CurrentSearchTerm = styled.p`
 
 const TopButton = styled.button`
   position: fixed;
-  bottom: 12%;
-  right: 5%;
+  bottom: 12vh;
+  right: 1.5rem;
   text-decoration: none;
   background-color: white;
   border-radius: 50%;
@@ -172,4 +186,20 @@ const TopButton = styled.button`
   border: none;
 `;
 
-const NextButton = styled.button``;
+const PaginationBox = styled.div`
+  width: 60%;
+  height: 7vh;
+  margin: 1rem 0 12vh 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  span {
+    font-weight: bold;
+  }
+
+  button {
+    border: none;
+    background-color: transparent;
+  }
+`;

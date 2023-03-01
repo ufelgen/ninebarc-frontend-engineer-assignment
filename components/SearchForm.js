@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { toggleSearching } from "../redux/searchingSlice";
 import { setCurrentSearchTerm } from "../redux/currentSearchTermSlice";
 import { setSearchedBooks } from "../redux/searchedBooksSlice";
+import { resetPage } from "../redux/pageSlice";
 import styled from "styled-components";
 import fetchSearchResults from "../helpers/fetchSearchResults";
 
@@ -26,6 +27,7 @@ export default function SearchForm({ onDetermineSpecification }) {
     dispatch(setSearchedBooks(matchedBooks));
     dispatch(setCurrentSearchTerm([searchTermString, specification]));
     toggleSearchingState();
+    dispatch(resetPage());
     event.target.reset();
   }
   return (
