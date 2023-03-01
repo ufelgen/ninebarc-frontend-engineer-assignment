@@ -3,6 +3,7 @@ import searchingSlice from "./searchingSlice";
 import currentSearchTermSlice from "./currentSearchTermSlice";
 import searchedBooksSlice from "./searchedBooksSlice";
 import descriptionSlice from "./descriptionSlice";
+import pageSlice from "./pageSlice";
 
 export default configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export default configureStore({
     currentSearchTerm: currentSearchTermSlice,
     searchedBooks: searchedBooksSlice,
     description: descriptionSlice,
+    page: pageSlice,
   },
 });
