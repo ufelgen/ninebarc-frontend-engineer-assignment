@@ -15,10 +15,28 @@ export default function SearchForm() {
     }, "5000");
   }
 
+  function determineSpecification(specification, searchTermPlus) {
+    if (specification === "none") {
+      const searchTerm = "q=" + searchTermPlus;
+      console.log(searchTerm);
+      return searchTerm;
+    } else if (specification === "author") {
+      const searchTerm = "author=" + searchTermPlus;
+      console.log(searchTerm);
+      return searchTerm;
+    } else if (specification === "title") {
+      const searchTerm = "title=" + searchTermPlus;
+      console.log(searchTerm);
+      return searchTerm;
+    }
+  }
   async function getBooks(event) {
     event.preventDefault();
     const searchTermString = event.target.elements.searchTerm.value.trim();
-    const searchTerm = searchTermString.replace(/\s/g, "+");
+    const searchTermPlus = searchTermString.replace(/\s/g, "+");
+    const specification = event.target.elements.specification.value;
+
+    const searchTerm = determineSpecification(specification, searchTermPlus);
     const matchedBooks = await fetchSearchResults(searchTerm);
     dispatch(setSearchedBooks(matchedBooks));
     dispatch(setCurrentSearchTerm(searchTermString));
@@ -28,7 +46,7 @@ export default function SearchForm() {
   return (
     <StyledForm onSubmit={() => getBooks(event)}>
       <label htmlFor="searchTerm">Search for a book title or author</label>
-      <input
+      <InputField
         id="searchTerm"
         name="searchTerm"
         placeholder="e.g. Harry Potter"
@@ -36,6 +54,12 @@ export default function SearchForm() {
       <button type="submit" aria-label="submit your search">
         search
       </button>
+      <input type="radio" value="none" id="none" name="specification" />
+      <RadioLabel htmlFor="none">any</RadioLabel>
+      <input type="radio" value="author" id="author" name="specification" />
+      <RadioLabel htmlFor="author">author</RadioLabel>
+      <input type="radio" value="title" id="title" name="specification" />
+      <RadioLabel htmlFor="none">title</RadioLabel>
     </StyledForm>
   );
 }
@@ -49,11 +73,11 @@ const StyledForm = styled.form`
   color: white;
   font-weight: bold;
 
-  input {
+  /*   input {
     padding: 0.25rem;
     height: 4vh;
     width: 77%;
-  }
+  } */
 
   button {
     padding: 0.25rem;
@@ -64,4 +88,15 @@ const StyledForm = styled.form`
     border-radius: 5px;
     width: 15%;
   }
+`;
+
+const InputField = styled.input`
+  padding: 0.25rem;
+  height: 4vh;
+  width: 77%;
+`;
+
+const RadioLabel = styled.label`
+  margin-right: 1rem;
+  margin-left: 0.5rem;
 `;
