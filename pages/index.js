@@ -131,9 +131,10 @@ export default function Home() {
                         onClick={handlePreviousPage}
                         disabled={page === 1}
                       >
-                        <BsFillArrowLeftCircleFill
+                        <PrevButton
                           size="7vh"
                           color="darkgrey"
+                          className={page === determineMaxPage() && "disabled"}
                         />
                       </button>
                       <span>
@@ -143,9 +144,10 @@ export default function Home() {
                         onClick={handleNextPage}
                         disabled={page === determineMaxPage()}
                       >
-                        <BsFillArrowRightCircleFill
+                        <NextButton
                           size="7vh"
                           color="darkgrey"
+                          className={page === determineMaxPage() && "disabled"}
                         />
                       </button>
                     </PaginationBox>
@@ -201,5 +203,20 @@ const PaginationBox = styled.div`
   button {
     border: none;
     background-color: transparent;
+    border-radius: 50%;
+  }
+`;
+
+const PrevButton = styled(BsFillArrowLeftCircleFill)`
+  &.disabled {
+    background-color: lightgrey;
+    border-radius: 50%;
+  }
+`;
+
+const NextButton = styled(BsFillArrowRightCircleFill)`
+  &.disabled {
+    background-color: lightgrey;
+    border-radius: 50%;
   }
 `;

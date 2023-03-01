@@ -41,12 +41,14 @@ export default function SearchForm({ onDetermineSpecification }) {
       <button type="submit" aria-label="submit your search">
         search
       </button>
-      <input type="radio" value="author" id="author" name="specification" />
-      <RadioLabel htmlFor="author">author</RadioLabel>
-      <input type="radio" value="title" id="title" name="specification" />
-      <RadioLabel htmlFor="none">title</RadioLabel>
-      <input type="radio" value="none" id="none" name="specification" />
-      <RadioLabel htmlFor="none">any</RadioLabel>
+      <div>
+        <input type="radio" value="author" id="author" name="specification" />
+        <RadioLabel htmlFor="author">author</RadioLabel>
+        <input type="radio" value="title" id="title" name="specification" />
+        <RadioLabel htmlFor="none">title</RadioLabel>
+        <input type="radio" value="none" id="none" name="specification" />
+        <RadioLabel htmlFor="none">any</RadioLabel>
+      </div>
     </StyledForm>
   );
 }
@@ -59,12 +61,6 @@ const StyledForm = styled.form`
   background-color: var(--darkmagenta);
   color: white;
   font-weight: bold;
-
-  /*   input {
-    padding: 0.25rem;
-    height: 4vh;
-    width: 77%;
-  } */
 
   button {
     padding: 0.25rem;
