@@ -57,7 +57,7 @@ const StyledForm = styled.form`
   border: 2px solid var(--lightgrey);
   border-radius: 5px;
   margin: 0.5rem;
-  padding: 0.5rem 0.25rem;
+  padding: 0.5rem 0.75rem;
   background-color: var(--darkmagenta);
   color: white;
   font-weight: bold;

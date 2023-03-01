@@ -92,20 +92,22 @@ export default function DetailPage({
       <Main>
         <BackgroundImage currentBook={currentBook} />
         <BookDetails currentBook={currentBook} description={description} />
-        <BackButton onClick={() => router.back()}>
-          <BsFillArrowLeftCircleFill size="7vh" color="darkgrey" />
-        </BackButton>
-        {determineIfIsFavourite() ? (
-          <FavouritesButton
-            onClick={() => handleRemoveFromFavouritesFinal(currentBook)}
-          >
-            <IoIosHeart size="6vh" color="darkgrey" />
-          </FavouritesButton>
-        ) : (
-          <FavouritesButton onClick={() => onAddToFavourites(currentBook)}>
-            <IoIosHeartEmpty size="6vh" color="darkgrey" />
-          </FavouritesButton>
-        )}
+        <ButtonBox>
+          <BackButton onClick={() => router.back()}>
+            <BsFillArrowLeftCircleFill size="7vh" color="darkgrey" />
+          </BackButton>
+          {determineIfIsFavourite() ? (
+            <FavouritesButton
+              onClick={() => handleRemoveFromFavouritesFinal(currentBook)}
+            >
+              <IoIosHeart size="6vh" color="darkgrey" />
+            </FavouritesButton>
+          ) : (
+            <FavouritesButton onClick={() => onAddToFavourites(currentBook)}>
+              <IoIosHeartEmpty size="6vh" color="darkgrey" />
+            </FavouritesButton>
+          )}
+        </ButtonBox>
       </Main>
     </>
   );
@@ -117,8 +119,7 @@ const Main = styled.main`
 `;
 
 const BackButton = styled.button`
-  position: fixed;
-  top: 5%;
+  position: absolute;
   left: 5%;
   text-decoration: none;
   background-color: white;
@@ -129,8 +130,7 @@ const BackButton = styled.button`
 `;
 
 const FavouritesButton = styled.button`
-  position: fixed;
-  top: 5%;
+  position: absolute;
   right: 5%;
   background-color: white;
   border: none;
@@ -140,4 +140,11 @@ const FavouritesButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const ButtonBox = styled.div`
+  width: 100%;
+  max-width: 800px;
+  position: fixed;
+  top: 5%;
 `;
