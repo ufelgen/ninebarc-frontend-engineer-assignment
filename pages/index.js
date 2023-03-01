@@ -15,9 +15,12 @@ import fetchSearchResults from "@/helpers/fetchSearchResults";
 import { useDispatch } from "react-redux";
 import { setSearchedBooks } from "../redux/searchedBooksSlice";
 
+import { useState } from "react";
+
 export default function Home() {
-  let page = 1;
   const dispatch = useDispatch();
+
+  const [page, setPage] = useState(1);
 
   const searching = useSelector((state) => state.searching.value);
   const currentSearchTerm = useSelector(
@@ -38,36 +41,36 @@ export default function Home() {
     }
   }
   async function handlePreviousPage() {
+    const prevPage = page - 1;
     const searchTermPlus = currentSearchTerm[0].replace(/\s/g, "+");
     const searchTerm = determineSpecification(
       currentSearchTerm[1],
       searchTermPlus
     );
 
-    if (page === 1) {
+    const matchedBooks = await fetchSearchResults(searchTerm, prevPage);
+    dispatch(setSearchedBooks(matchedBooks));
+    scrollToTop();
+    /*if (page === 1) {
       //prevButton.disabled = true;
       return;
     }
-    /*if (page < 42) {
+    if (page < 42) {
       nextButton.disabled = false;
     } */
-    page--;
-    const matchedBooks = await fetchSearchResults(searchTerm, page);
-    dispatch(setSearchedBooks(matchedBooks));
-    scrollToTop();
-
+    setPage((prevPage) => prevPage - 1);
     console.log("page", page);
   }
 
   async function handleNextPage() {
-    page++;
+    const nextPage = page + 1;
 
     const searchTermPlus = currentSearchTerm[0].replace(/\s/g, "+");
     const searchTerm = determineSpecification(
       currentSearchTerm[1],
       searchTermPlus
     );
-    const matchedBooks = await fetchSearchResults(searchTerm, page);
+    const matchedBooks = await fetchSearchResults(searchTerm, nextPage);
     dispatch(setSearchedBooks(matchedBooks));
     scrollToTop();
 
@@ -77,7 +80,7 @@ export default function Home() {
     if (page === maxPage) {
       nextButton.disabled = true;
     } */
-
+    setPage((prevPage) => prevPage + 1);
     console.log("page", page);
   }
 
@@ -121,11 +124,17 @@ export default function Home() {
                     <BookSearchResult book={book} />
                   </Fragment>
                 ))}
-                <button onClick={handlePreviousPage}>prev</button>
-                <button onClick={handleNextPage}>next</button>
-                <TopButton onClick={scrollToTop}>
-                  <BsFillArrowUpCircleFill size="7vh" color="darkgrey" />
-                </TopButton>
+                {searchedBooks?.docs && (
+                  <>
+                    <button onClick={handlePreviousPage} disabled={page === 1}>
+                      prev
+                    </button>
+                    <button onClick={handleNextPage}>next</button>
+                    <TopButton onClick={scrollToTop}>
+                      <BsFillArrowUpCircleFill size="7vh" color="darkgrey" />
+                    </TopButton>
+                  </>
+                )}
               </>
             )}
           </>
