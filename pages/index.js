@@ -151,9 +151,11 @@ export default function Home() {
                         />
                       </button>
                     </PaginationBox>
-                    <TopButton onClick={scrollToTop}>
-                      <BsFillArrowUpCircleFill size="7vh" color="darkgrey" />
-                    </TopButton>
+                    <TopButtonBox>
+                      <TopButton onClick={scrollToTop}>
+                        <BsFillArrowUpCircleFill size="7vh" color="darkgrey" />
+                      </TopButton>
+                    </TopButtonBox>
                   </>
                 )}
               </>
@@ -177,9 +179,16 @@ const CurrentSearchTerm = styled.p`
   color: var(--darkmagenta);
 `;
 
-const TopButton = styled.button`
+const TopButtonBox = styled.div`
+  width: 100%;
+  max-width: 800px;
   position: fixed;
   bottom: 12vh;
+`;
+
+const TopButton = styled.button`
+  position: absolute;
+  bottom: 0;
   right: 1.5rem;
   text-decoration: none;
   background-color: white;
