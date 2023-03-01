@@ -172,7 +172,7 @@ const Main = styled.main`
 `;
 
 const CurrentSearchTerm = styled.p`
-  margin: 1rem;
+  margin: 0.75rem 1.5rem;
   font-weight: bold;
   color: var(--darkmagenta);
 `;
