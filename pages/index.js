@@ -51,15 +51,8 @@ export default function Home() {
     const matchedBooks = await fetchSearchResults(searchTerm, prevPage);
     dispatch(setSearchedBooks(matchedBooks));
     scrollToTop();
-    /*if (page === 1) {
-      //prevButton.disabled = true;
-      return;
-    }
-    if (page < 42) {
-      nextButton.disabled = false;
-    } */
+
     setPage((prevPage) => prevPage - 1);
-    console.log("page", page);
   }
 
   async function handleNextPage() {
@@ -74,14 +67,18 @@ export default function Home() {
     dispatch(setSearchedBooks(matchedBooks));
     scrollToTop();
 
-    /*     if (page > 1) {
-      prevButton.disabled = false;
-    }
-    if (page === maxPage) {
-      nextButton.disabled = true;
-    } */
     setPage((prevPage) => prevPage + 1);
-    console.log("page", page);
+  }
+
+  function determineMaxPage() {
+    if (searchedBooks?.numFound % 100 === 0) {
+      const maxPage = searchedBooks?.numFound / 100;
+      return maxPage;
+    } else {
+      const maxPage =
+        (searchedBooks?.numFound - (searchedBooks?.numFound % 100)) / 100 + 1;
+      return maxPage;
+    }
   }
 
   return (
@@ -129,7 +126,15 @@ export default function Home() {
                     <button onClick={handlePreviousPage} disabled={page === 1}>
                       prev
                     </button>
-                    <button onClick={handleNextPage}>next</button>
+                    <span>
+                      {page} of {determineMaxPage()}
+                    </span>
+                    <button
+                      onClick={handleNextPage}
+                      disabled={page === determineMaxPage()}
+                    >
+                      next
+                    </button>
                     <TopButton onClick={scrollToTop}>
                       <BsFillArrowUpCircleFill size="7vh" color="darkgrey" />
                     </TopButton>
