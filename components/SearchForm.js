@@ -5,7 +5,7 @@ import { setSearchedBooks } from "../redux/searchedBooksSlice";
 import styled from "styled-components";
 import fetchSearchResults from "../helpers/fetchSearchResults";
 
-export default function SearchForm() {
+export default function SearchForm({ onDetermineSpecification }) {
   const dispatch = useDispatch();
 
   function toggleSearchingState() {
@@ -15,31 +15,16 @@ export default function SearchForm() {
     }, "5000");
   }
 
-  function determineSpecification(specification, searchTermPlus) {
-    if (specification === "none") {
-      const searchTerm = "q=" + searchTermPlus;
-      console.log(searchTerm);
-      return searchTerm;
-    } else if (specification === "author") {
-      const searchTerm = "author=" + searchTermPlus;
-      console.log(searchTerm);
-      return searchTerm;
-    } else if (specification === "title") {
-      const searchTerm = "title=" + searchTermPlus;
-      console.log(searchTerm);
-      return searchTerm;
-    }
-  }
   async function getBooks(event) {
     event.preventDefault();
     const searchTermString = event.target.elements.searchTerm.value.trim();
     const searchTermPlus = searchTermString.replace(/\s/g, "+");
     const specification = event.target.elements.specification.value;
 
-    const searchTerm = determineSpecification(specification, searchTermPlus);
-    const matchedBooks = await fetchSearchResults(searchTerm);
+    const searchTerm = onDetermineSpecification(specification, searchTermPlus);
+    const matchedBooks = await fetchSearchResults(searchTerm, "1");
     dispatch(setSearchedBooks(matchedBooks));
-    dispatch(setCurrentSearchTerm(searchTermString));
+    dispatch(setCurrentSearchTerm([searchTermString, specification]));
     toggleSearchingState();
     event.target.reset();
   }
@@ -54,12 +39,12 @@ export default function SearchForm() {
       <button type="submit" aria-label="submit your search">
         search
       </button>
-      <input type="radio" value="none" id="none" name="specification" />
-      <RadioLabel htmlFor="none">any</RadioLabel>
       <input type="radio" value="author" id="author" name="specification" />
       <RadioLabel htmlFor="author">author</RadioLabel>
       <input type="radio" value="title" id="title" name="specification" />
       <RadioLabel htmlFor="none">title</RadioLabel>
+      <input type="radio" value="none" id="none" name="specification" />
+      <RadioLabel htmlFor="none">any</RadioLabel>
     </StyledForm>
   );
 }

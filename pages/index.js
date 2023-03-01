@@ -11,13 +11,76 @@ import LottieBook from "../public/Lottie/LottieBook";
 import { BsFillArrowUpCircleFill } from "react-icons/bs";
 import scrollToTop from "../helpers/scrollToTop";
 import { useSelector } from "react-redux";
+import fetchSearchResults from "@/helpers/fetchSearchResults";
+import { useDispatch } from "react-redux";
+import { setSearchedBooks } from "../redux/searchedBooksSlice";
 
 export default function Home() {
+  let page = 1;
+  const dispatch = useDispatch();
+
   const searching = useSelector((state) => state.searching.value);
   const currentSearchTerm = useSelector(
     (state) => state.currentSearchTerm.value
   );
   const searchedBooks = useSelector((state) => state.searchedBooks.value);
+
+  function determineSpecification(specification, searchTermPlus) {
+    if (specification === "none" || specification === "") {
+      const searchTerm = "q=" + searchTermPlus;
+      return searchTerm;
+    } else if (specification === "author") {
+      const searchTerm = "author=" + searchTermPlus;
+      return searchTerm;
+    } else if (specification === "title") {
+      const searchTerm = "title=" + searchTermPlus;
+      return searchTerm;
+    }
+  }
+  async function handlePreviousPage() {
+    const searchTermPlus = currentSearchTerm[0].replace(/\s/g, "+");
+    const searchTerm = determineSpecification(
+      currentSearchTerm[1],
+      searchTermPlus
+    );
+
+    if (page === 1) {
+      //prevButton.disabled = true;
+      return;
+    }
+    /*if (page < 42) {
+      nextButton.disabled = false;
+    } */
+    page--;
+    const matchedBooks = await fetchSearchResults(searchTerm, page);
+    dispatch(setSearchedBooks(matchedBooks));
+    scrollToTop();
+
+    console.log("page", page);
+  }
+
+  async function handleNextPage() {
+    page++;
+
+    const searchTermPlus = currentSearchTerm[0].replace(/\s/g, "+");
+    const searchTerm = determineSpecification(
+      currentSearchTerm[1],
+      searchTermPlus
+    );
+    const matchedBooks = await fetchSearchResults(searchTerm, page);
+    dispatch(setSearchedBooks(matchedBooks));
+    scrollToTop();
+
+    /*     if (page > 1) {
+      prevButton.disabled = false;
+    }
+    if (page === maxPage) {
+      nextButton.disabled = true;
+    } */
+
+    console.log("page", page);
+  }
+
   return (
     <>
       <Head>
@@ -25,11 +88,11 @@ export default function Home() {
       </Head>
       <Header />
       <Main>
-        <SearchForm />
+        <SearchForm onDetermineSpecification={determineSpecification} />
         {searching ? (
           <>
             <CurrentSearchTerm>
-              searching for: &quot;{currentSearchTerm}&quot;
+              searching for: &quot;{currentSearchTerm[0]}&quot;
             </CurrentSearchTerm>
             <Lottie
               animationData={LottieBook}
@@ -49,15 +112,17 @@ export default function Home() {
                 you searched for: &quot;{currentSearchTerm}&quot;
               </CurrentSearchTerm>
             )}
-            {searchedBooks.numFound === 0 ? (
+            {searchedBooks?.numFound === 0 ? (
               <NoResults />
             ) : (
               <>
-                {searchedBooks.docs?.map((book) => (
+                {searchedBooks?.docs?.map((book) => (
                   <Fragment key={book.key}>
                     <BookSearchResult book={book} />
                   </Fragment>
                 ))}
+                <button onClick={handlePreviousPage}>prev</button>
+                <button onClick={handleNextPage}>next</button>
                 <TopButton onClick={scrollToTop}>
                   <BsFillArrowUpCircleFill size="7vh" color="darkgrey" />
                 </TopButton>
@@ -92,3 +157,5 @@ const TopButton = styled.button`
   height: 7vh;
   border: none;
 `;
+
+const NextButton = styled.button``;
