@@ -24,14 +24,23 @@ export default function Home() {
         <title>Book Quest</title>
       </Head>
       <Header />
-      <main>
+      <Main>
         <SearchForm />
         {searching ? (
           <>
             <CurrentSearchTerm>
               searching for: &quot;{currentSearchTerm}&quot;
             </CurrentSearchTerm>
-            <Lottie animationData={LottieBook} loop={true} />
+            <Lottie
+              animationData={LottieBook}
+              loop={true}
+              style={{
+                bottom: "10%",
+                zIndex: -1,
+                overflow: "hidden",
+                position: "fixed",
+              }}
+            />
           </>
         ) : (
           <>
@@ -57,10 +66,15 @@ export default function Home() {
           </>
         )}
         <Footer />
-      </main>
+      </Main>
     </>
   );
 }
+
+const Main = styled.main`
+  position: relative;
+  margin-bottom: 11vh;
+`;
 
 const CurrentSearchTerm = styled.p`
   margin: 1rem;
@@ -77,4 +91,9 @@ const TopButton = styled.button`
   border-radius: 50%;
   height: 7vh;
   border: none;
+`;
+
+const StyledAnimation = styled(Lottie)`
+  position: fixed;
+  bottom: 30vh;
 `;
