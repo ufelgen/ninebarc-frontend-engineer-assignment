@@ -1,10 +1,22 @@
-import { useState } from "react";
 import Head from "next/head";
 import GlobalStyles from "@/components/GlobalStyles";
 import store from "../redux/store";
 import { Provider } from "react-redux";
+import useLocalStorageState from "use-local-storage-state";
 
 export default function App({ Component, pageProps }) {
+  const [favourites, setFavourites] = useLocalStorageState("favourites", {
+    defaultValue: [],
+  });
+
+  function handleAddToFavourites(currentBook) {
+    setFavourites([...favourites, currentBook]);
+  }
+
+  function handleRemoveFromFavourites(currentBook) {
+    setFavourites(favourites.filter((book) => book.key !== currentBook.key));
+  }
+
   return (
     <Provider store={store}>
       <Head>
@@ -12,7 +24,11 @@ export default function App({ Component, pageProps }) {
       </Head>
 
       <GlobalStyles />
-      <Component {...pageProps} />
+      <Component
+        {...pageProps}
+        onAddToFavourites={handleAddToFavourites}
+        onRemoveFromFavourites={handleRemoveFromFavourites}
+      />
     </Provider>
   );
 }

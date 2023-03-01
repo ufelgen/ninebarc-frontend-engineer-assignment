@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import SearchForm from "@/components/SearchForm";
 import BookSearchResult from "@/components/BookSearchResult";
 import NoResults from "@/components/NoResults";
+import Footer from "@/components/Footer";
 import LottieBook from "../public/Lottie/LottieBook";
 import { BsFillArrowUpCircleFill } from "react-icons/bs";
 import scrollToTop from "../helpers/scrollToTop";
@@ -23,14 +24,23 @@ export default function Home() {
         <title>Book Quest</title>
       </Head>
       <Header />
-      <main>
+      <Main>
         <SearchForm />
         {searching ? (
           <>
             <CurrentSearchTerm>
               searching for: &quot;{currentSearchTerm}&quot;
             </CurrentSearchTerm>
-            <Lottie animationData={LottieBook} loop={true} />
+            <Lottie
+              animationData={LottieBook}
+              loop={true}
+              style={{
+                bottom: "10%",
+                zIndex: -1,
+                overflow: "hidden",
+                position: "fixed",
+              }}
+            />
           </>
         ) : (
           <>
@@ -55,10 +65,16 @@ export default function Home() {
             )}
           </>
         )}
-      </main>
+        <Footer />
+      </Main>
     </>
   );
 }
+
+const Main = styled.main`
+  position: relative;
+  margin-bottom: 11vh;
+`;
 
 const CurrentSearchTerm = styled.p`
   margin: 1rem;
@@ -68,7 +84,7 @@ const CurrentSearchTerm = styled.p`
 
 const TopButton = styled.button`
   position: fixed;
-  bottom: 5%;
+  bottom: 12%;
   right: 5%;
   text-decoration: none;
   background-color: white;

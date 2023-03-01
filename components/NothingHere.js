@@ -11,7 +11,7 @@ export default function NothingHere() {
       <p>we&apos;re sorry we cannot find your book</p>
       <Lottie animationData={LottieNothingHere} loop={true} />
       <StyledLink href="/" aria-label="go back to main page">
-        go back
+        go back to main page
       </StyledLink>
     </Section>
   );
