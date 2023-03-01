@@ -92,8 +92,3 @@ const TopButton = styled.button`
   height: 7vh;
   border: none;
 `;
-
-const StyledAnimation = styled(Lottie)`
-  position: fixed;
-  bottom: 30vh;
-`;

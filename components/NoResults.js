@@ -10,8 +10,6 @@ export default function NoResults() {
       <Lottie
         animationData={LottieNoResults}
         loop={true}
-        height={40}
-        width={60}
         style={{
           bottom: "0%",
           zIndex: -1,
