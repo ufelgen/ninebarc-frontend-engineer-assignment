@@ -23,10 +23,11 @@ test("renders the correct form elements", async () => {
 
 test("resets the form after submit", async () => {
   const user = userEvent.setup();
+  const onDetermineSpecification = jest.fn();
 
   render(
     <Provider store={store}>
-      <SearchForm />
+      <SearchForm onDetermineSpecification={onDetermineSpecification} />
     </Provider>
   );
 
